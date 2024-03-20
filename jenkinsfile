@@ -14,15 +14,5 @@ pipeline
                 }
             }
         }
-        stage('ContinuousBuild')
-        {
-            steps
-            {
-                script
-                {
-                    cicd.mavenBuild()
-                }
-            }
-        }
     }
 }

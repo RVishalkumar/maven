@@ -1,28 +1,29 @@
 @Library('mylibrary')_
 pipeline
 {
-    agent any
-    stages
-    {
-        stage('ContinuousDownload_Master')
-        {
-            steps
-            {
-                script
-                {
-                    cicd.gitDownload("maven")
-                }
-            }
-        }
-        stage('ContinuousBuild_Master')
-        {
-            steps
-            {
-                script
-                {
-                    cicd.mavenBuild()
-                }
-            }
-        }
-    }
+	agent any
+	stages
+	{
+		stage('ContinuousDownload_Master')
+		{
+			steps
+			{
+				script
+				{
+					cicd.gitDownload("maven")
+				}
+			}
+		}
+		stage('ContinuousBuild_Master')
+		{
+			steps
+			{
+				script
+				{
+					cicd.mavenBuild()
+				}
+			}
+
+		}
+	}
 }

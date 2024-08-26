@@ -1,24 +1,18 @@
-node('built-in') 
+@Library('mylibrary')_
+pipeline
 {
-    stage('ContinuousDownload') 
+    agent any
+    stages
     {
-        git 'https://github.com/RVishalkumar/maven.git'
-    }
-    stage('Continuousbuild')
-    {
-        sh 'mvn package'
-    }
-    stage('ContinuousDeployment')
-    {
-        deploy adapters: [tomcat9(credentialsId: '9e675422-b495-45dd-8409-97b21be9a8f7', path: '', url: 'http://172.31.26.74:8080')], contextPath: 'testapp', war: '**/*.war'
-    }
-    stage('ContinuousTesting')
-    {
-        git 'https://github.com/RVishalkumar/FunctionalTesting.git'
-        sh 'java -jar /var/lib/jenkins/workspace/ScriptedPipeline1/testing.jar'
-    }
-    stage('ContinuousDelivery')
-    {
-        deploy adapters: [tomcat9(credentialsId: '9e675422-b495-45dd-8409-97b21be9a8f7', path: '', url: 'http://172.31.25.141:8080')], contextPath: 'prodapp', war: '**/*.war'
-    }
+        stage('ContDownload')
+        {
+            steps
+            {
+                script
+                {
+                    cicd.gitDownload("maven")
+                }
+            }
+        }
+     }
 }

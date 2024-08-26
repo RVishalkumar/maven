@@ -14,5 +14,15 @@ pipeline
                 }
             }
         }
+        stage('ContBuild')
+        {
+            steps
+            {
+                script
+                {
+                    cicd.mavenBuild()
+                }
+            }
+	}
      }
 }

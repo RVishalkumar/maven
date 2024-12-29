@@ -1,42 +1,27 @@
+@Library('mylibrary')_
 pipeline
 {
     agent any
     stages
     {
-        stage('ContinuousDownload')
+        stage('ContDownload')
         {
             steps
             {
-                git 'https://github.com/sudarshansw7/mymaven.git'
+                script
+                {
+                    cicd.gitDownload("maven")
+                }
             }
         }
-        stage('ContinuousBuild')
+        stage('ContBuild')
         {
             steps
             {
-                sh 'mvn package'
-            }
-        }
-        stage('ContinuousDeployment')
-        {
-            steps
-            {
-                deploy adapters: [tomcat9(credentialsId: 'c4547938-f333-44ae-829e-f696a0ad8672', path: '', url: 'http://172.31.13.158:8080')], contextPath: 'test', war: '**/*.war'
-            }
-        }
-        stage('ContinuousTesting')
-        {
-            steps
-            {
-                git 'https://github.com/sudarshansw7/myfunctionaltesting.git'
-                sh 'java -jar /var/lib/jenkins/workspace/DeclarativePipeline/testing.jar'
-            }
-        }
-        stage('ContinuousDelivery')
-        {
-            steps
-            {
-                deploy adapters: [tomcat9(credentialsId: 'c4547938-f333-44ae-829e-f696a0ad8672', path: '', url: 'http://172.31.14.248:8080')], contextPath: 'prod', war: '**/*.war'
+                script
+                {
+                    cicd.mavenBuild()
+                }
             }
         }
     }
